@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ###############################################################################
 #                        UTILITIES PER SHELL SCRIPTING                        #
 ###############################################################################
@@ -20,8 +22,7 @@ export SCRIPT_NAME=""
 # log "I" "messaggio da loggare" 1 --> stampa [ <timestamp> ] @@ I @@ -- primo livello
 # log "I" "messaggio da loggare" 2 --> stampa [ <timestamp> ] @@ I @@ ---- secondo livello
 # log "I" "messaggio da loggare" 1 --> stampa [ <timestamp> ] @@ I @@ -- primo livello
-function log
-{
+function log {
     MESSAGE="$1 @@ "
     if [[ $# -eq 3 ]]
     then 
@@ -44,8 +45,7 @@ function log
 
 
 #  Esegue il logging dell'applicazione se il flag di debug e' attivo.
-function dlog
-{
+function dlog {
     if [[ "$DEBUG_FLAG" == 'Y' ]]
     then
         log "$@"
@@ -53,8 +53,7 @@ function dlog
 }
 
 
-function pipe_log
-{
+function pipe_log {
     while read line
     do
         log 'I' "$line" $1
@@ -62,8 +61,7 @@ function pipe_log
 }
 
 
-function dpipe_log
-{
+function dpipe_log {
     while read line
     do
         dlog 'D' "$line" $1
@@ -72,8 +70,7 @@ function dpipe_log
 
 #####  La funzione simula un breakpoint in fase di esecuzione
 ##### (attiva solo in caso di debug abilitato)
-function breakpoint
-{
+function breakpoint {
     [ "$DEBUG_FLAG" == "Y" ] && {
         dlog "$*" 
         read 
@@ -82,8 +79,7 @@ function breakpoint
 
 
 # La funzione esce dallo script.
-function my_exit
-{
+function my_exit {
   myrc=$2
   message=$1
   log_level="I"
@@ -100,8 +96,7 @@ function my_exit
 
 
 # Funzione di inizializzazione script.
-function init_script
-{
+function init_script {
     log "I" "" 0
     log "I" "###############################################################################" 0
     log "I" " Initializing script $SCRIPT_NAME                                              " 0
@@ -117,8 +112,7 @@ function init_script
     
 
 # Funzione di chiusura script.
-function end_script
-{
+function end_script {
     message=""
     [ $1 -eq 0 ] && {
         [[ "$DEBUG_FLAG" == "N" && -n "$TMPDIR" ]] && {
