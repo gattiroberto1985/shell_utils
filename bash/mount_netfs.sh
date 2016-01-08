@@ -10,11 +10,12 @@
 ping -c 1 www.google.it 1>/dev/null 2>&1
 rc=$?
 netfs_list="$HOME/.netfs_logon_params"
+echo " if [[ $rc -eq 0 ]] "
 if [[ $rc -eq 0 ]]
 then
     [ -f $netfs_list ] || {
         echo "|-- File di credenziali $netfs_list non trovato"
-        return
+        exit 1
     }
 
     echo "|-- Carico i dati dal file di credenziali di rete"
@@ -26,7 +27,7 @@ then
         FS_PWD=$(echo $line  | cut -d ';' -f4)
         [ -z ${FS_SERVER} ] && {
             echo "     Server nullo, esco"
-            return
+            exit 2
         }
         echo "|---- Monto fs ${FS_SERVER} su ${FS_MOUNTPOINT}..."
         CMD="curlftpfs -o user=${FS_USER}:${FS_PWD} ${FS_SERVER} ${FS_MOUNTPOINT}"
